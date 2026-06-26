@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amirul Zamhri — Senior Creative Designer & Illustrator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.2/anime.min.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        heading: ['OldschoolGrotesk', 'Inter', 'system-ui', 'sans-serif'],
+                        body: ['Aeonik', 'Inter', 'sans-serif'],
+                    },
+                    animation: {
+                        'drift': 'drift 8s ease-in-out infinite',
+                        'pulse-star': 'pulseStar 3s ease-in-out infinite',
+                        'pulse-star-delayed': 'pulseStar 4s ease-in-out 1s infinite',
+                        'pulse-star-slow': 'pulseStar 5s ease-in-out 2s infinite',
+                        'pulse-star-fast': 'pulseStar 2.5s ease-in-out 0.5s infinite',
+                        'pulse-star-warm': 'pulseStar 3.5s ease-in-out 1.5s infinite',
+                        'love-pulse': 'lovePulse 1.5s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        drift: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-12px)' }
+                        },
+                        pulseStar: {
+                            '0%, 100%': {
+                                opacity: '0.4',
+                                transform: 'scale(1)',
+                                boxShadow: '0 0 8px rgba(255,180,80,0.6), 0 0 20px rgba(255,140,40,0.3)'
+                            },
+                            '50%': {
+                                opacity: '1',
+                                transform: 'scale(1.8)',
+                                boxShadow: '0 0 18px rgba(255,200,100,0.9), 0 0 40px rgba(255,160,60,0.6), 0 0 60px rgba(255,120,30,0.3)'
+                            },
+                        },
+                        lovePulse: {
+                            '0%, 100%': { transform: 'scale(1)', opacity: '1' },
+                            '50%': { transform: 'scale(1.4)', opacity: '0.7' }
+                        },
+                    },
+                },
+            },
+        }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-[#111112] text-zinc-200 antialiased font-sans min-h-screen">
+    <div id="main-wrapper">
+        <div id="loading-screen">
+            <div class="loader-ring"></div>
+            <p class="loader-text">Entering Creative Space</p>
+            <p class="loader-progress" id="loader-percent">0%</p>
+        </div>
+        <div class="grid-plus-overlay"></div>
+        <div class="cursor-dot" id="cursor-dot"></div>
+        <div class="cursor-ring" id="cursor-ring"></div>
+        <div id="scroll-progress-bar"></div>
+        <div id="floating-timer">00:00:00:000</div>
+
+        <!-- Burning Star Nodes -->
+        <div class="star-node w-5 h-5 bg-[#FFB450] animate-pulse-star" style="top:50%;left:50%;z-index:1;"></div>
+        <div class="star-node w-7 h-7 bg-[#FF8C28] animate-pulse-star-delayed" style="top:50%;left:50%;z-index:1;"></div>
+        <div class="star-node w-3 h-3 bg-[#FFD700] animate-pulse-star-slow" style="top:50%;left:50%;z-index:1;"></div>
+        <div class="star-node w-6 h-6 bg-[#FFA040] animate-pulse-star-fast" style="top:50%;left:50%;z-index:1;"></div>
+        <div class="star-node w-5 h-5 bg-[#FFC870] animate-pulse-star-warm" style="top:50%;left:50%;z-index:1;"></div>
+
+        <!-- Giant blurry floating dots -->
+        <div class="big-blur-dot" style="top: 8%; left: 8%; background: #ff1414;"></div>
+        <div class="big-blur-dot" style="top: 65%; left: 55%; background: #0000ff;"></div>
+
+        <nav id="vertical-nav">
+            <div id="nav-links">
+                <a href="#hero" class="nav-link active">Home</a>
+                <a href="#bio" class="nav-link">Bio</a>
+                <a href="#timeline" class="nav-link">Timeline</a>
+                <a href="#showcase" class="nav-link">Works</a>
+                <a href="#contact" class="nav-link">Contact</a>
+            </div>
+            <div id="nav-audio-player">
+                <button id="audio-play-btn" class="wave-btn paused" title="Play Background Audio" aria-label="Toggle background audio">
+                    <div class="ripple-container">
+                        <div class="ripple-core"></div>
+                        <div class="ripple-circle"></div>
+                        <div class="ripple-circle"></div>
+                        <div class="ripple-circle"></div>
+                    </div>
+                </button>
+                <div id="audio-progress" title="Seek"><div id="audio-progress-fill" style="height:0%"></div></div>
+            </div>
+        </nav>
+        <audio id="bg-audio" src="background-music.mp3" autoplay muted loop preload="auto"></audio>
+
+        <!-- ── HERO ── -->
+        <section id="hero" class="relative py-20 lg:py-28 px-6 lg:px-10 z-10">
+            <div class="w-full relative z-10 max-w-[1400px] mx-auto">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-0 items-center">
+                    <div class="lg:pl-4">
+                        <div class="inline-flex items-center gap-2.5 px-5 py-2.5 bg-[#1E1E22]/60 backdrop-blur-md border border-zinc-800/60 mb-6">
+                            <span class="w-2 h-2 bg-[#00E5FF] animate-pulse shadow-[0_0_8px_rgba(0,229,255,0.6)]"></span>
+                            <span class="text-zinc-400 text-xs tracking-[0.18em] uppercase">Senior Creative Designer & Illustrator</span>
+                        </div>
+                        <h1 class="scramble-target text-5xl sm:text-6xl md:text-7xl font-black uppercase tracking-tighter leading-[0.9] mb-4 text-zinc-100 heading-font" data-original="Bringing Creativity // to the Everyday">
+                            Bringing Creativity <span class="blink-slash">//</span> to the Everyday
+                        </h1>
+                        <p class="scramble-target max-w-xl text-zinc-400 text-lg sm:text-xl font-light leading-relaxed mt-4 mb-6 body-text" data-original="Turning regular work documents into vibrant, interesting, and easy-to-read creations. With over six years shaping visual communication for global brands.">
+                            Turning regular work documents into vibrant, interesting, and easy-to-read creations.
+                        </p>
+                        <div class="flex flex-col sm:flex-row items-start gap-3">
+                            <a href="https://www.linkedin.com/in/amirulzamhri/" target="_blank" rel="noopener noreferrer" class="cta-primary" data-cta-sound="true">LINKEDIN
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="overflow-hidden h-full">
+                        <img src="https://media2.giphy.com/media/v1.Y2lkPWVjZjA1ZTQ3eDh1dG04MjMwbDYydWh1ZDdpNHN2cGk4MTE0aHltanE2cDB6cTJzYSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/2SYpZ92iLQsF6QZl5u/giphy.webp" alt="Abstract Minimalist Geometry art layout" class="ease-in-img w-full h-full object-cover aspect-[4/5] lg:h-[700px]" loading="lazy" onerror="this.src='https://placehold.co/800x900/1E1E22/00E5FF?text=Abstract+Geometry'">
+                    </div>
+                </div>
+            </div>
+        </section>
+        <div class="divider-line max-w-[1400px] mx-auto px-6 lg:px-10"></div>
+
+        <!-- ── BIO ── -->
+        <section id="bio" class="relative py-20 lg:py-28 px-6 lg:px-10 z-10">
+            <div class="max-w-[1400px] mx-auto">
+                <div class="mb-12">
+                    <span class="text-[#FF4B4B] text-xs tracking-[0.22em] uppercase">// Creative Biography</span>
+                    <h2 class="scramble-target text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black uppercase tracking-tighter text-zinc-100 mt-3 leading-[1.05] heading-font" data-original="The Vision // Behind the Craft">
+                        The Vision <span class="blink-slash">//</span> Behind the Craft
+                    </h2>
+                </div>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-10">
+                    <div class="card-studio rounded-2xl p-7 lg:p-9 vision-card">
+                        <div class="flex items-center gap-3 mb-5 vision-header-row">
+                            <div class="w-10 h-10 bg-[#1E1E22]/60 backdrop-blur-md border border-zinc-800/60 rounded-lg flex items-center justify-center">
+                                <svg class="w-5 h-5 text-[#FF4B4B]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg>
+                            </div>
+                            <span class="scramble-target text-zinc-100 font-semibold text-lg tracking-tight heading-font vision-header" data-original="Professional Narrative">Professional Narrative</span>
+                        </div>
+                        <p class="scramble-target text-zinc-300 leading-relaxed text-base mb-4 body-text" data-original="Amirul Zamhri is a Senior Creative Designer, Graphic Designer, and Illustrator based in Kuala Lumpur. He picked up drawing as a kid watching his dad, and never stopped evolving his craft.">
+                            Amirul Zamhri is a <span class="text-[#FF4B4B] font-medium">Senior Creative Designer, Graphic Designer, and Illustrator</span> based in Kuala Lumpur.
+                        </p>
+                        <p class="scramble-target text-zinc-300 leading-relaxed text-base mb-4 body-text" data-original="Currently at 2X Marketing, he leads creative campaigns from concept to delivery, specializing in corporate presentations, branding, and digital illustrations.">
+                            Currently at <span class="text-zinc-100 font-medium">2X Marketing</span>, he leads creative campaigns from concept to delivery.
+                        </p>
+                        <p class="scramble-target text-zinc-300 leading-relaxed text-base mb-4 body-text" data-original="He previously honed his skills at Inmagine Group and 123RF.com, working on visual content systems, display ads, and user interface design.">
+                            He previously honed his skills at Inmagine Group and 123RF.com, working on visual content systems and display ads.
+                        </p>
+                        <p class="text-zinc-400 leading-relaxed text-lg font-medium italic border-l-2 border-[#00E5FF] pl-4 body-text">
+                            "I'm pretty straightforward — just trying to bring creativity to the everyday stuff."
+                        </p>
+                    </div>
+                    <div class="flex flex-col gap-5">
+                        <div class="card-studio rounded-2xl p-7 lg:p-9 vision-card">
+                            <div class="flex items-center gap-3 mb-5 vision-header-row">
+                                <div class="w-10 h-10 bg-[#1E1E22]/60 backdrop-blur-md border border-zinc-800/60 rounded-lg flex items-center justify-center">
+                                    <svg class="w-5 h-5 text-[#00E5FF]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.47V19a2 2 0 11-4 0v-.53c0-1.12-.557-2.158-1.418-2.782l-.548-.547z"/></svg>
+                                </div>
+                                <span class="scramble-target text-zinc-100 font-semibold text-lg tracking-tight heading-font vision-header" data-original="Creative Stack">Creative Stack</span>
+                            </div>
+                            <div class="flex flex-wrap gap-2" id="skill-grid-matrix">
+                                <span class="grid-badge px-4 py-2.5 tag-studio rounded-lg text-sm font-medium tracking-wide scramble-target" data-original="Adobe Photoshop">Adobe Photoshop</span>
+                                <span class="grid-badge px-4 py-2.5 tag-studio rounded-lg text-sm font-medium tracking-wide scramble-target" data-original="Adobe Illustrator">Adobe Illustrator</span>
+                                <span class="grid-badge px-4 py-2.5 tag-studio rounded-lg text-sm font-medium tracking-wide scramble-target" data-original="Adobe InDesign">Adobe InDesign</span>
+                                <span class="grid-badge px-4 py-2.5 tag-studio rounded-lg text-sm font-medium tracking-wide scramble-target" data-original="Microsoft Office">Microsoft Office</span>
+                                <span class="grid-badge px-4 py-2.5 tag-studio rounded-lg text-sm font-medium tracking-wide scramble-target" data-original="Stable Diffusion">Stable Diffusion</span>
+                                <span class="grid-badge px-4 py-2.5 tag-studio rounded-lg text-sm font-medium tracking-wide scramble-target" data-original="Vector Illustration">Vector Illustration</span>
+                                <span class="grid-badge px-4 py-2.5 tag-studio rounded-lg text-sm font-medium tracking-wide scramble-target" data-original="HTML5 Ads">HTML5 Ads</span>
+                                <span class="grid-badge px-4 py-2.5 tag-studio rounded-lg text-sm font-medium tracking-wide scramble-target" data-original="Creative Art Direction">Creative Art Direction</span>
+                                <span class="grid-badge px-4 py-2.5 tag-studio rounded-lg text-sm font-medium tracking-wide scramble-target" data-original="Brand Identity Design">Brand Identity Design</span>
+                                <span class="grid-badge px-4 py-2.5 tag-studio rounded-lg text-sm font-medium tracking-wide scramble-target" data-original="Layout & Typography">Layout & Typography</span>
+                            </div>
+                        </div>
+                        <div class="card-studio rounded-2xl p-7 lg:p-9 vision-card">
+                            <div class="flex items-center gap-3 mb-5 vision-header-row">
+                                <div class="w-10 h-10 bg-[#1E1E22]/60 backdrop-blur-md border border-zinc-800/60 rounded-lg flex items-center justify-center">
+                                    <svg class="w-5 h-5 text-[#FF4B4B]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"/></svg>
+                                </div>
+                                <span class="scramble-target text-zinc-100 font-semibold text-lg tracking-tight heading-font vision-header" data-original="Design Mediums">Design Mediums</span>
+                            </div>
+                            <div class="grid grid-cols-2 gap-2.5" id="mediums-grid-matrix">
+                                <div class="grid-badge flex items-center gap-2.5 text-zinc-300 text-sm"><span class="w-1.5 h-1.5 bg-[#FF4B4B] rounded-full"></span><span class="scramble-target" data-original="Corporate Whitepapers">Corporate Whitepapers</span></div>
+                                <div class="grid-badge flex items-center gap-2.5 text-zinc-300 text-sm"><span class="w-1.5 h-1.5 bg-[#00E5FF] rounded-full"></span><span class="scramble-target" data-original="eBooks & Reports">eBooks & Reports</span></div>
+                                <div class="grid-badge flex items-center gap-2.5 text-zinc-300 text-sm"><span class="w-1.5 h-1.5 bg-[#FF4B4B] rounded-full"></span><span class="scramble-target" data-original="Infographics">Infographics</span></div>
+                                <div class="grid-badge flex items-center gap-2.5 text-zinc-300 text-sm"><span class="w-1.5 h-1.5 bg-[#00E5FF] rounded-full"></span><span class="scramble-target" data-original="Presentation Decks">Presentation Decks</span></div>
+                                <div class="grid-badge flex items-center gap-2.5 text-zinc-300 text-sm"><span class="w-1.5 h-1.5 bg-[#FF4B4B] rounded-full"></span><span class="scramble-target" data-original="HTML5 Animated Ads">HTML5 Animated Ads</span></div>
+                                <div class="grid-badge flex items-center gap-2.5 text-zinc-300 text-sm"><span class="w-1.5 h-1.5 bg-[#00E5FF] rounded-full"></span><span class="scramble-target" data-original="Social Media Assets">Social Media Assets</span></div>
+                                <div class="grid-badge flex items-center gap-2.5 text-zinc-300 text-sm"><span class="w-1.5 h-1.5 bg-[#FF4B4B] rounded-full"></span><span class="scramble-target" data-original="Brand Identity">Brand Identity</span></div>
+                                <div class="grid-badge flex items-center gap-2.5 text-zinc-300 text-sm"><span class="w-1.5 h-1.5 bg-[#00E5FF] rounded-full"></span><span class="scramble-target" data-original="Print Collateral">Print Collateral</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <div class="divider-line max-w-[1400px] mx-auto px-6 lg:px-10"></div>
+
+        <!-- ── TIMELINE ── -->
+        <section id="timeline" class="relative py-20 lg:py-28 px-0 z-10">
+            <div class="max-w-[1400px] mx-auto px-6 lg:px-10">
+                <div class="mb-12">
+                    <span class="text-[#00E5FF] text-xs tracking-[0.22em] uppercase">// Professional Timeline</span>
+                    <h2 class="scramble-target text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black uppercase tracking-tighter text-zinc-100 mt-3 leading-[1.05] heading-font" data-original="The Arc // of Creative Growth">
+                        The Arc <span class="blink-slash">//</span> of Creative Growth
+                    </h2>
+                </div>
+            </div>
+            <div class="max-w-[1400px] mx-auto px-6 lg:px-10 mb-7">
+                <div class="overflow-hidden rounded-lg">
+                    <img src="https://images.unsplash.com/photo-1557683316-973673baf926?w=1400&h=200&fit=crop&crop=center" alt="Dynamic Flowing Color Splice Lines accent graphic" class="ease-in-img w-full h-28 object-cover" loading="lazy" onerror="this.src='https://placehold.co/1400x200/1E1E22/00E5FF?text=Color+Splice'">
+                </div>
+            </div>
+            <div class="max-w-[1400px] mx-auto px-6 lg:px-10">
+                <div class="timeline-bar space-y-8">
+                    <div class="relative">
+                        <div class="card-studio rounded-xl p-6">
+                            <span class="text-[#FF4B4B] text-xs tracking-[0.15em] uppercase">2025 — Present</span>
+                            <h3 class="text-zinc-100 font-bold text-lg tracking-tight mt-1 heading-font">Senior Creative Designer</h3>
+                            <p class="text-zinc-400 text-sm mt-0.5 body-text">2X Marketing // Kuala Lumpur (Hybrid)</p>
+                            <p class="scramble-target text-zinc-400 text-sm mt-2.5 leading-relaxed body-text" data-original="Leading end-to-end creation of core marketing assets, advanced PowerPoint beautification, and animated HTML5 ads. Driving strategic client insights and coaching peers.">Leading end-to-end asset creation and strategic design direction at 2X.</p>
+                        </div>
+                    </div>
+                    <div class="relative">
+                        <div class="card-studio rounded-xl p-6">
+                            <span class="text-[#FF4B4B] text-xs tracking-[0.15em] uppercase">2023 — 2025</span>
+                            <h3 class="text-zinc-100 font-bold text-lg tracking-tight mt-1 heading-font">Creative Designer</h3>
+                            <p class="text-zinc-400 text-sm mt-0.5 body-text">2X Marketing // Kuala Lumpur</p>
+                            <p class="scramble-target text-zinc-400 text-sm mt-2.5 leading-relaxed body-text" data-original="Delivered full spectrum of design needs from long-form reports to short-form social content. Built foundational expertise in HTML5 ads and articulated design rationale in client meetings.">Delivered long-form & social design assets while building HTML5 ad foundations.</p>
+                        </div>
+                    </div>
+                    <div class="relative">
+                        <div class="card-studio rounded-xl p-6">
+                            <span class="text-[#FF4B4B] text-xs tracking-[0.15em] uppercase">2021 — 2023</span>
+                            <h3 class="text-zinc-100 font-bold text-lg tracking-tight mt-1 heading-font">Associate Designer</h3>
+                            <p class="text-zinc-400 text-sm mt-0.5 body-text">2X Marketing // Kuala Lumpur</p>
+                            <p class="scramble-target text-zinc-400 text-sm mt-2.5 leading-relaxed body-text" data-original="Built core design competencies through rebranding tasks and design pool work. Recognized for independence, clean layouts, and proactive client communication.">Rebranding and design pool work — recognized for independence and clean layouts.</p>
+                        </div>
+                    </div>
+                    <div class="relative">
+                        <div class="card-studio rounded-xl p-6">
+                            <span class="text-[#FF4B4B] text-xs tracking-[0.15em] uppercase">2018 — 2021</span>
+                            <h3 class="text-zinc-100 font-bold text-lg tracking-tight mt-1 heading-font">Graphic Designer</h3>
+                            <p class="text-zinc-400 text-sm mt-0.5 body-text">Inmagine Group // Selangor</p>
+                            <p class="scramble-target text-zinc-400 text-sm mt-2.5 leading-relaxed body-text" data-original="Developed compelling visual content including display ads, social media graphics, and campaign assets. Upholded brand guidelines and contributed to reusable design systems.">Created display ads, social graphics, and reusable design templates for Inmagine.</p>
+                        </div>
+                    </div>
+                    <div class="relative">
+                        <div class="card-studio rounded-xl p-6">
+                            <span class="text-[#FF4B4B] text-xs tracking-[0.15em] uppercase">2015 — 2018</span>
+                            <h3 class="text-zinc-100 font-bold text-lg tracking-tight mt-1 heading-font">Graphic Illustrator</h3>
+                            <p class="text-zinc-400 text-sm mt-0.5 body-text">Stock Unlimited LLC // Remote</p>
+                            <p class="scramble-target text-zinc-400 text-sm mt-2.5 leading-relaxed body-text" data-original="Produced graphic illustrations and visual assets for a global stock media platform, blending creativity with commercial appeal.">Produced illustrations and visual assets for a global stock media platform.</p>
+                        </div>
+                    </div>
+                    <div class="relative">
+                        <div class="card-studio rounded-xl p-6">
+                            <span class="text-[#FF4B4B] text-xs tracking-[0.15em] uppercase">2014 — 2015</span>
+                            <h3 class="text-zinc-100 font-bold text-lg tracking-tight mt-1 heading-font">Graphic Designer</h3>
+                            <p class="text-zinc-400 text-sm mt-0.5 body-text">123RF.com</p>
+                            <p class="scramble-target text-zinc-400 text-sm mt-2.5 leading-relaxed body-text" data-original="Early role contributing to design production and asset management, laying the foundation for a career in visual communication.">Early role in design production and asset management, setting the stage for future growth.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <div class="divider-line max-w-[1400px] mx-auto px-6 lg:px-10"></div>
+
+        <!-- ── SHOWCASE ── -->
+        <section id="showcase" class="relative py-20 lg:py-28 px-6 lg:px-10 z-10">
+            <div class="max-w-[1400px] mx-auto">
+                <div class="mb-12">
+                    <span class="text-[#FF4B4B] text-xs tracking-[0.22em] uppercase">// Graphic Design Showcase</span>
+                    <h2 class="scramble-target text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black uppercase tracking-tighter text-zinc-100 mt-3 leading-[1.05] heading-font" data-original="The Selected // Creative Works">
+                        The Selected <span class="blink-slash">//</span> Creative Works
+                    </h2>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="masonry-grid">
+                    <!-- Project 1: 2X Presentation Decks -->
+                    <div class="masonry-card group relative overflow-hidden bg-[#1E1E22]/60 backdrop-blur-md border-2 border-zinc-800/60 cursor-pointer transition-all duration-400 hover:border-[#FF4B4B] hover:scale-[1.04] rounded-2xl" data-artwork-id="1" data-title="2X Presentation Systems" data-type="Corporate Presentations" data-client="2X Marketing" data-industry="B2B Marketing" data-summary="Mastered advanced PowerPoint beautification and template design from scratch for enterprise client presentations and internal materials." data-years="2025 — Present" data-image1="https://images.unsplash.com/photo-1779528589396-7e1466862273?w=1200&auto=format&fit=crop&q=80" data-image2="https://images.unsplash.com/photo-1557683316-973673baf926?w=1200&auto=format&fit=crop&q=80">
+                        <div class="aspect-[4/5] relative overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1779528589396-7e1466862273?w=1200&auto=format&fit=crop&q=80&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHx0b3BpYy1mZWVkfDU0fENEd3V3WEpBYkV3fHxlbnwwfHx8fHw%3D" alt="Corporate presentation design" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy" onerror="this.src='https://placehold.co/600x750/1E1E22/FF4B4B?text=Presentation+Decks'">
+                        </div>
+                        <div class="overlay-slide absolute inset-0 flex flex-col justify-end p-5">
+                            <div class="info-slide-up">
+                                <span class="text-[#FF4B4B] text-xs tracking-[0.15em] uppercase">Corporate Presentations</span>
+                                <h3 class="text-zinc-100 font-bold text-lg tracking-tight mt-1 heading-font">2X Presentation Systems</h3>
+                                <p class="text-zinc-300 text-sm mt-1.5 leading-relaxed body-text">Advanced PowerPoint beautification and template design from scratch for high-stakes client decks.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Project 2: White papers & eBooks -->
+                    <div class="masonry-card group relative overflow-hidden bg-[#1E1E22]/60 backdrop-blur-md border-2 border-zinc-800/60 cursor-pointer transition-all duration-400 hover:border-[#00E5FF] hover:scale-[1.04] rounded-2xl lg:row-span-2" data-artwork-id="2" data-title="Whitepaper & eBook Designs" data-type="Editorial & Report Design" data-client="2X Marketing" data-industry="B2B / Technology" data-summary="Led end-to-end creation of long-form whitepapers, case studies, eBooks, and cheat sheets with engaging infographics and typographic layouts." data-years="2021 — 2025" data-image1="https://images.unsplash.com/photo-1771230825735-d1f8005f0f38?w=1200&auto=format&fit=crop&q=80" data-image2="https://images.unsplash.com/photo-1737085189345-73e77b537955?w=1200&auto=format&fit=crop&q=80">
+                        <div class="aspect-[3/4] lg:aspect-auto lg:h-full relative overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1771230825735-d1f8005f0f38?w=1200&auto=format&fit=crop&q=80&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHx0b3BpYy1mZWVkfDEwN3xDRHd1d1hKQWJFd3x8ZW58MHx8fHx8" alt="Whitepaper and report design" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy" onerror="this.src='https://placehold.co/600x900/1E1E22/00E5FF?text=Whitepapers'">
+                        </div>
+                        <div class="overlay-slide absolute inset-0 flex flex-col justify-end p-5">
+                            <div class="info-slide-up">
+                                <span class="text-[#00E5FF] text-xs tracking-[0.15em] uppercase">Editorial & Report Design</span>
+                                <h3 class="text-zinc-100 font-bold text-lg tracking-tight mt-1 heading-font">Whitepaper & eBook Designs</h3>
+                                <p class="text-zinc-300 text-sm mt-1.5 leading-relaxed body-text">Long-form corporate reports, case studies, and cheat sheets with visual storytelling at the core.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Project 3: Inmagine Visual Content -->
+                    <div class="masonry-card group relative overflow-hidden bg-[#1E1E22]/60 backdrop-blur-md border-2 border-zinc-800/60 cursor-pointer transition-all duration-400 hover:border-[#FF4B4B] hover:scale-[1.04] rounded-2xl" data-artwork-id="3" data-title="Inmagine Visual Content" data-type="Display Ads & Social" data-client="Inmagine Group" data-industry="Media / Stock" data-summary="Developed compelling visual content including display ads, social media graphics, and campaign assets for a leading stock media platform." data-years="2018 — 2021" data-image1="https://images.unsplash.com/photo-1775656926048-16743f9a6c7a?w=1200&auto=format&fit=crop&q=80">
+                        <div class="aspect-[4/5] relative overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1775656926048-16743f9a6c7a?w=1200&auto=format&fit=crop&q=80&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHx0b3BpYy1mZWVkfDg3fENEd3V3WEpBYkV3fHxlbnwwfHx8fHw%3D" alt="Display ads and social graphics" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy" onerror="this.src='https://placehold.co/600x750/1E1E22/FF4B4B?text=Display+Ads'">
+                        </div>
+                        <div class="overlay-slide absolute inset-0 flex flex-col justify-end p-5">
+                            <div class="info-slide-up">
+                                <span class="text-[#FF4B4B] text-xs tracking-[0.15em] uppercase">Display Ads & Social</span>
+                                <h3 class="text-zinc-100 font-bold text-lg tracking-tight mt-1 heading-font">Inmagine Visual Content</h3>
+                                <p class="text-zinc-300 text-sm mt-1.5 leading-relaxed body-text">Compelling social media graphics and campaign assets aligned with brand guidelines.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Project 4: HTML5 Animated Ads -->
+                    <div class="masonry-card group relative overflow-hidden bg-[#1E1E22]/60 backdrop-blur-md border-2 border-zinc-800/60 cursor-pointer transition-all duration-400 hover:border-[#00E5FF] hover:scale-[1.04] rounded-2xl" data-artwork-id="4" data-title="Animated HTML5 Campaigns" data-type="HTML5 & Motion Design" data-client="2X Marketing" data-industry="Technology / B2B" data-summary="Designed and produced animated HTML5 ads for digital marketing campaigns, combining motion and design to drive engagement." data-years="2023 — Present" data-image1="https://images.unsplash.com/photo-1691443297137-68818fe7bce9?w=1200&auto=format&fit=crop&q=80">
+                        <div class="aspect-[4/5] relative overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1691443297137-68818fe7bce9?w=1200&auto=format&fit=crop&q=80&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHx0b3BpYy1mZWVkfDE4MHxDRHd1d1hKQWJFd3x8ZW58MHx8fHx8" alt="HTML5 animated ad design" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy" onerror="this.src='https://placehold.co/600x750/1E1E22/00E5FF?text=HTML5+Ads'">
+                        </div>
+                        <div class="overlay-slide absolute inset-0 flex flex-col justify-end p-5">
+                            <div class="info-slide-up">
+                                <span class="text-[#00E5FF] text-xs tracking-[0.15em] uppercase">HTML5 & Motion Design</span>
+                                <h3 class="text-zinc-100 font-bold text-lg tracking-tight mt-1 heading-font">Animated HTML5 Campaigns</h3>
+                                <p class="text-zinc-300 text-sm mt-1.5 leading-relaxed body-text">Engaging animated HTML5 ads that combine motion with strong visual storytelling.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Project 5: Brand Identity & Templates -->
+                    <div class="masonry-card group relative overflow-hidden bg-[#1E1E22]/60 backdrop-blur-md border-2 border-zinc-800/60 cursor-pointer transition-all duration-400 hover:border-[#FF4B4B] hover:scale-[1.04] rounded-2xl" data-artwork-id="5" data-title="Brand Identity & Reusable Systems" data-type="Brand Design" data-client="Multiple Clients" data-industry="Design / B2B" data-summary="Developed reusable design templates, UI elements, and visual systems upholding brand consistency across multiple channels." data-years="2015 — Present" data-image1="https://images.unsplash.com/photo-1737085189345-73e77b537955?w=1200&auto=format&fit=crop&q=80">
+                        <div class="aspect-[4/5] relative overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1737085189345-73e77b537955?w=1200&auto=format&fit=crop&q=80&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHx0b3BpYy1mZWVkfDE0N3xDRHd1d1hKQWJFd3x8ZW58MHx8fHx8" alt="Brand identity and template system" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy" onerror="this.src='https://placehold.co/600x750/1E1E22/FF4B4B?text=Brand+Identity'">
+                        </div>
+                        <div class="overlay-slide absolute inset-0 flex flex-col justify-end p-5">
+                            <div class="info-slide-up">
+                                <span class="text-[#FF4B4B] text-xs tracking-[0.15em] uppercase">Brand Design</span>
+                                <h3 class="text-zinc-100 font-bold text-lg tracking-tight mt-1 heading-font">Brand Identity & Reusable Systems</h3>
+                                <p class="text-zinc-300 text-sm mt-1.5 leading-relaxed body-text">Custom templates and visual systems ensuring brand consistency across all touchpoints.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center mt-10">
+                    <a href="https://www.behance.net/amirulzamhri" target="_blank" rel="noopener noreferrer" class="cta-primary" data-cta-sound="true">
+                        View Full Portfolio on Behance
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </section>
+        <div class="divider-line max-w-[1400px] mx-auto px-6 lg:px-10"></div>
+
+        <!-- ── CONTACT ── -->
+        <section id="contact" class="relative py-20 lg:py-28 px-6 lg:px-10 z-10">
+            <div class="max-w-[1400px] mx-auto">
+                <div class="mb-12">
+                    <span class="text-[#00E5FF] text-xs tracking-[0.22em] uppercase">// Let's Collaborate</span>
+                    <h2 class="scramble-target text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black uppercase tracking-tighter text-zinc-100 mt-3 leading-[1.05] heading-font" data-original="Ready // to Create Together?">
+                        Ready <span class="blink-slash">//</span> to Create Together?
+                    </h2>
+                </div>
+                <p class="scramble-target text-zinc-400 text-lg mt-4 leading-relaxed body-text" data-original="Whether you need a brand identity overhaul, custom illustration packages, or corporate creative assets that command attention — let's turn your vision into vibrant reality.">
+                    Whether you need a brand identity overhaul, custom illustration packages, or corporate creative assets that command attention — let's turn your vision into vibrant reality.
+                </p>
+                <div class="mt-10 card-studio rounded-2xl p-8 w-full">
+                    <a href="mailto:amirulzamhri@gmail.com" class="block text-2xl font-bold text-[#FF4B4B] hover:text-[#e03a3a] transition-colors duration-200 tracking-tight heading-font">amirulzamhri@gmail.com</a>
+                    <p class="text-zinc-400 text-sm mt-1.5 mb-6 body-text">Available for freelance illustration & design commissions — based in Kuala Lumpur, working globally</p>
+                    <div class="flex items-center gap-3">
+                        <a href="https://www.linkedin.com/in/amirulzamhri/" target="_blank" rel="noopener noreferrer" class="cta-primary" data-cta-sound="true">LINKEDIN
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                            </svg>
+                        </a>
+                        <a href="https://www.behance.net/amirulzamhri" target="_blank" rel="noopener noreferrer" class="cta-primary" data-cta-sound="true">BEHANCE
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer Image -->
+        <div class="max-w-[1400px] mx-auto px-6 lg:px-10 mb-7">
+            <div class="overflow-hidden rounded-lg">
+                <img src="https://media1.giphy.com/media/v1.Y2lkPWVjZjA1ZTQ3NmZ4dHhyb2xpZjNvOWdtcmU5Z2VvcTJ2aThpN2t0Y3VyaXRnYnYxYiZlcD12MV9naWZzX3NlYXJjaCZjdD1n/9JxkPTP3alOykb8PmQ/giphy.webp" alt="Clean Modern Workspace Line Drawing footer image" class="ease-in-img w-full h-40 object-cover" loading="lazy" onerror="this.src='https://placehold.co/1400x300/1E1E22/00E5FF?text=Studio+Workspace'">
+            </div>
+        </div>
+
+        <footer class="border-t border-zinc-800/50 py-8 px-6 lg:px-10 bg-[#111112]">
+            <div class="max-w-[1400px] mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
+                <div class="flex items-center gap-2 text-zinc-400 text-sm body-text">
+                    <span>&copy;</span><span>2027</span><span class="text-zinc-600">//</span><span class="text-[#FF4B4B]">Amirul Zamhri</span>
+                </div>
+                <div class="flex items-center gap-5 text-zinc-400 text-xs tracking-wider uppercase body-text">
+                    <span class="text-zinc-500">Designed with precision</span><span class="animate-love-pulse text-[#FF4B4B]">❤</span>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Artwork Modal & Lightbox -->
+    <div id="artwork-modal">
+        <div class="modal-wrapper">
+            <div class="modal-content" id="modal-inner">
+                <button class="close-btn" id="modal-close">&times;</button>
+                <div id="modal-scroll-progress"></div>
+                <div id="modal-details"></div>
+            </div>
+            <div class="modal-footer">
+                <button class="cta-primary" id="modal-prev-work">← Previous Work</button>
+                <button class="cta-primary" id="modal-next-work">Next Work →</button>
+            </div>
+        </div>
+    </div>
+    <div id="artwork-lightbox">
+        <button class="lightbox-close" id="lightbox-close">&times;</button>
+        <button class="lightbox-prev lightbox-nav" id="lightbox-prev">&lsaquo;</button>
+        <img class="lightbox-image" id="lightbox-img" src="" alt="Lightbox image">
+        <button class="lightbox-next lightbox-nav" id="lightbox-next">&rsaquo;</button>
+        <div id="lightbox-zoom-bar"><div id="lightbox-zoom-fill"></div></div>
+        <span id="lightbox-zoom-label">Double-click to activate magnification lens · Scroll to scale</span>
+        <button id="lightbox-autoplay-btn">Play</button>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
